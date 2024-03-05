@@ -1,0 +1,33 @@
+.standings-div{
+    width:50%;
+    /* border: 1px solid #CCCCCC; */
+
+    /* border-radius: 45%; */
+    padding:10px;
+    margin:10px auto;
+}
+
+.standings-table {
+    width: 70% !important;
+    margin: 0 auto;
+    /* border-collapse: separate; */
+
+}
+
+.standings-table td{
+    background-color: transparent !important;
+    border-bottom: 1px solid #0F292F !important;
+
+}
+
+.standings-table th{
+    background-color: #0F292F !important;
+}
+
+.standings-table tr {
+    vertical-align: middle !important;
+}
+#trophyCupImg{
+    max-height: 75px;
+    margin: 0 auto !important;
+}

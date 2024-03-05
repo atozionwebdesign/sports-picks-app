@@ -1,0 +1,49 @@
+.container-div{
+    display: flex;
+    align-items: center;
+     margin-top: -75px;
+     position: relative;
+}
+.jumbotron-div{
+    width: 80% !important;
+    margin: auto;
+    /* position: fixed; */
+    /* top: 50% */
+}
+
+.underline {
+    display: block;
+    /* position: absolute; */
+    /* bottom: 0;
+    left: 0; */
+    width: 0;
+    /* height: calc(1px + 0.6vw); */
+    height: 3px;
+    background-color: #d3ad29;
+    margin: 0;
+    font-size: 10px !important
+  }
+
+  .bottom-div {
+    bottom: 0;
+  }
+
+
+#ballWrap{
+  /* display: block; */
+  padding: 0;
+  /* border: 1px solid red; */
+  /* height: 100px; */
+  width: 100%;
+  /* overflow: hidden; */
+}
+
+  #ballImg{
+    margin: 0;
+  width:100px;
+  visibility:hidden;
+  filter: drop-shadow(0 0 5px #14A098);
+
+}
+
+  /* filter: drop-shadow(5px 5px 10px #122E39); */

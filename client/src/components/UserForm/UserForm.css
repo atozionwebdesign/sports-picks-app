@@ -1,0 +1,58 @@
+.icon {
+    height: 40px;
+    cursor: pointer;
+  }
+
+.icon-container {
+    height: 150px;
+    overflow-y: auto;
+    scrollbar-color: #0F292F #999999;
+    border: 2px solid #CCCCCC;
+}
+
+.active-icon{
+    border: 2px solid #CB2D6F !important;
+    border-radius: 10px;
+}
+
+/**** form fields ****/
+
+#userForm .form-control{
+    background-color: transparent;
+    border-radius: 0;
+    border: none;
+    border-bottom: 2px solid #CCCCCC;
+}
+    #userForm .form-control:focus {
+        /* background-color:#501F3A !important; */
+        /* color:#CCCCCC !important; */
+        box-shadow: none !important;
+        border: 2px solid #CB2D6F!important;
+    }
+
+#userForm .form-control:focus::placeholder, #userForm .form-floating > .form-control::placeholder{
+    color: transparent !important;
+
+
+}
+#userForm .form-label{
+    margin:15px 0 0 15px;
+}
+
+#userForm .form-control::placeholder, #userForm .form-label, #userForm .form-floating{
+        color: #0F292F !important;
+}
+
+#userForm .form-floating > .form-control:focus + label:after,
+#userForm .form-floating > .form-control + label:after{
+    background-color: transparent !important;
+
+}
+
+#usernameControl2.form-control.is-valid, #passwordControl2.form-control.is-valid{
+    background-image: none !important;
+}
+
+#userForm a{
+    text-decoration: none;
+}

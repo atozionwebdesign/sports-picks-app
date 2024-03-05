@@ -1,0 +1,61 @@
+.team-card{
+    width:30%;
+    display: inline-block !important;
+    background-color: transparent !important;
+}
+
+.column-header {
+    /* background-color: rgba(0,0,0,.7); */
+    background-color: #122E39;
+}
+
+.team-row p {
+    color: #CCCCCC;
+}
+.tab-container{
+    /* padding-left: 0 !important; */
+    margin: 0 !important;
+    padding-left: 0 !important;
+}
+
+.league-div{
+    display: inline-block;
+    /* margin-bottom: 50px !important; */
+}
+
+.league-btn {
+    font-weight: normal !important;
+    margin-bottom: 25px !important;
+}
+
+.league-btn.inactive:hover{
+   text-decoration: underline;
+    text-decoration-color: #d3ad29;
+    text-underline-offset: 5px;
+}
+
+.league-btn.active{
+    color: #d3ad29 !important;
+    font-weight:bold !important
+}
+
+.picks-dropdown .dropdown-menu{
+    background-color: #CCCCCC;
+    width: 100%;
+}
+
+.picks-dropdown .dropdown-menu .dropdown-item{
+    color: #501F3A !important
+}
+
+.picks-dropdown .dropdown-menu .dropdown-item:hover{
+    background-color: #A9B2AD;
+    font-weight:bold;
+}
+
+.sport-img{
+    max-height:100px;
+    display: inline-block ;
+    margin: 0 auto;
+}
+

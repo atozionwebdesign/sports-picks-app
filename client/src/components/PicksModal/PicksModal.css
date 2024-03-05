@@ -1,0 +1,52 @@
+
+
+.filter-select{
+    max-width: 40%;
+    color: #CCCCCC !important;
+    /* font-weight: bold !important; */
+    display: inline-block !important;
+    border: 2px #0F292F solid !important;
+    background-color: #141414 !important;
+    margin: 0 10px;
+    outline: none !important;
+}
+
+.filter-select:focus{
+    box-shadow: 0 0 8px #14A098 !important;
+}
+
+.filter-select option:checked{
+    background-color: #14A098 !important;
+    color: #0F292F !important;
+}
+
+.pick-btn{
+    width: 100%;
+    background-color: transparent !important;
+    margin: 5px 0;
+    border: 1px #14A098 dashed !important;
+}
+
+.active-pick {
+    border: thick solid #501F3A !important;
+}
+
+.bi{
+    margin-right:3px;
+    font-size: 90%;
+}
+
+#picksTopImg{
+    max-height:150px;
+    display:block;
+    margin: 0 auto 15px auto;
+    filter: drop-shadow(0 0 10px #122E39);
+}
+
+.record{
+    font-size: 80%;
+}
+
+.pick-logo{
+    max-height: 60px;
+}

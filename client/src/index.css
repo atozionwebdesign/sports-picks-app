@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight&family=Six+Caps&display=swap");
+
+body {
+  margin: 0;
+  font-family: 'Inter Tight', sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color:#14A098 !important;
+  /* background-color: #0F292F !important; */
+  /* background-image: linear-gradient(black, #0F292F, black, #0F292F, #0F292F, #14A098);
+  background-attachment: fixed; */
+
+  background-color: #0F292F !important;
+}
+
+/* h1{
+  font-family: 'Six Caps', sans-serif;
+} */
+
+h5, h6 {
+  margin: 0.5rem !important;
+}
+
+code {
+  font-family: 'Inter Tight', sans-serif;
+}

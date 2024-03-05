@@ -1,0 +1,28 @@
+.picks-table td {
+    background-color: transparent !important;
+}
+
+.picks-table tr {
+    vertical-align: middle !important;
+}
+
+.picks-table p{
+    margin: 5px;
+}
+
+.winner-icon{
+    max-width: 30px !important;
+    margin: 0 2px
+}
+
+.crown-icon{
+    max-height:25px;
+}
+
+.table-header{
+    color: #14A098 !important;
+    text-decoration: underline;
+    text-decoration-color: #501F3A;
+    text-underline-offset: 5px;
+
+}

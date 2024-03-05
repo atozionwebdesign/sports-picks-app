@@ -1,0 +1,18 @@
+.events-div{
+    /* height:100px; */
+    /* margin-bottom: 20px; */
+    text-align: left;
+    padding: 15px !important;
+    background-color: #122E39 !important;
+    width: 90%;
+    margin: 0 auto 5px auto;
+}
+
+.events-table, .events-table td{
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.events-table p {
+    color: #CCCCCC;
+}

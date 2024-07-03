@@ -19,7 +19,7 @@ import { loggedInSelector, userSelector } from "../../redux/selectors";
 
 import { fadeIn } from "../Animate";
 
-const Nav = forwardRef(function(props,ref){
+const Nav = forwardRef(function (props, ref) {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [formType, setFormType] = useState("");
@@ -49,9 +49,8 @@ const Nav = forwardRef(function(props,ref){
       return;
     }
     setFormType(type);
-    onClickHeaderItem(ref)
+    onClickHeaderItem(ref);
     // setShow(true);
-
   };
 
   return (
@@ -64,17 +63,24 @@ const Nav = forwardRef(function(props,ref){
       {/* <div style={{margin: "0 15px"}}> */}
       <BootstrapNav className="justify-content-between main-nav">
         <BootstrapNav.Brand href="/" className="fade">
+          <div>
+          <img src="/logo192.png" alt="" style={{display:"inline-block", width:"50px", marginRight:"5px", borderRadius:"50%"}}/>
           <p
             className="magenta-text"
             style={{
               fontWeight: "bold",
               fontFamily: "Six Caps, sans-serif",
               fontSize: "40px",
+              display: "inline-block",
+              verticalAlign: "middle",
+              marginTop:"10px"
             }}
           >
             Who<span className="pink-text">U</span>Got
             <span className="pink-text">?</span>
           </p>
+          </div>
+
         </BootstrapNav.Brand>
         <BootstrapNav.Toggle />
         <BootstrapNav.Collapse className="justify-content-end">

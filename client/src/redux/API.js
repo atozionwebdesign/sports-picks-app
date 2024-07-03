@@ -40,9 +40,15 @@ export default {
       `http://site.api.espn.com/apis/site/v2/sports/${sport}/${league}/scoreboard?seasontype=${season}&week=${week}`
     );
   },
+  getDaysInfo: (sport, league, season, day) => {
+    return axios.get(
+      `http://site.api.espn.com/apis/site/v2/sports/${sport}/${league}/scoreboard?seasontype=${season}&day=${day}`
+    );
+  },
   getStandingsInfo: (sport, league) => {
     return axios.get(
       `https://site.api.espn.com/apis/v2/sports/${sport}/${league}/standings`
     );
   },
+  
 };

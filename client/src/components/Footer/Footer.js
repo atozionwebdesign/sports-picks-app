@@ -33,17 +33,17 @@ const Footer = () => {
         <Col sm={1}>
         </Col>
         <Col sm={2}>
-        <p className="footer-subheader">Services</p>
-        <ul>
-            <li>Custom Website Design & Development</li>
-            <li>eCommerce Website Development</li>
-            <li>Email Marketing</li>
+        {/* <p className="footer-subheader">Services</p> */}
+        {/* <ul>
+           <li>eCommerce Website Development</li>
+              <li>Custom Website Design & Development</li>
+           <li>Email Marketing</li>
             <li>Graphic Design & Branding</li>
             <li>Mobile Application Development</li>
             <li>Portfolio Showcase</li>
             <li>UI / UX Design</li>
             <li>...and so much more!</li>
-          </ul>
+          </ul> */}
         </Col>
         <Col sm={2}>
           <p className="footer-subheader">Site Links</p>
@@ -56,7 +56,7 @@ const Footer = () => {
       </Row>
 
       <div id="copyrightDiv">
-      <p className="no-margin">Web app designed, developed & maintained by <span className="turquoise-text ">Ashley Stith- CEO / Lead Developer of A To Zion Web Design, LLC</span>.</p>
+      {/* <p className="no-margin">Web app designed, developed & maintained by <span className="turquoise-text ">Ashley Stith- CEO / Lead Developer of A To Zion Web Design, LLC</span>.</p> */}
         <p id="copyright">
           <i className="bi bi-c-circle"></i> 2024 A To Zion Web Design, LLC |
           All Rights Reserved

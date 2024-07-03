@@ -28,6 +28,7 @@ import { getAllPicks, filterUserPicks } from "../../redux/features/pickSlice";
 
 import { getTeamsByLeague } from "../../redux/features/teamSlice";
 import { loggedInSelector, userSelector } from "../../redux/selectors";
+import { act } from "react";
 
 const Tab = (props) => {
   const dispatch = useDispatch();
@@ -42,7 +43,9 @@ const Tab = (props) => {
   const [teamsDivisions, setTeamsDivisions] = useState([]); // Teams by division
   const [conferences, setConferences] = useState([]); // Table values
   const [divisions, setDivisions] = useState([]); // Table values
-  const [week, setWeek] = useState({}); // Current week
+  const [week, setWeek] = useState({}); // Current week (football)
+  const [day, setDay] = useState({}); // Current week
+  const [season, setSeason] = useState("");
 
   const [filter, setFilter] = useState(); // Table filters
 
@@ -59,14 +62,16 @@ const Tab = (props) => {
     setShowTable(false);
   };
 
-  const handleClick = (e) => {
+  const handleLeagueClick = (e) => {
     setActive(e.target.name);
-
     const leagueData = e.target.name.toLowerCase();
     setLeague(leagueData);
     dispatch(getStandingsInfo({ sport: sport, league: leagueData })).then(
       (data) => {
         let teamsData = store.getState().api.standings;
+        setSeason(
+          store.getState().api.standings[0].standings.seasonDisplayName
+        );
         setTeamsState(teamsData);
         const conferenceData = teamsData.map(({ abbreviation, name }) => ({
           abbreviation,
@@ -77,24 +82,30 @@ const Tab = (props) => {
         dispatch(getTeamsByLeague({ league: leagueData })).then((data) => {
           const teamsDivisionsData = store.getState().team.teams;
           setTeamsDivisions(teamsDivisionsData);
-
           setTeamsData(teamsData, teamsDivisionsData, "");
 
-          let divisionsData = teamsDivisionsData.map((item) => item.division);
-          divisionsData = [...new Set(divisionsData)].sort();
+          let divisionsData = teamsDivisionsData.map((item) => ({
+            division: item.division,
+            conference: item.conference,
+          }));
+
+          divisionsData = [...new Set(divisionsData.map(JSON.stringify))]
+            .map(JSON.parse)
+            .sort();
           setDivisions(divisionsData);
         });
 
         dispatch(getCurrentWeekInfo({ sport: sport, league: leagueData })).then(
           (data) => {
             let weekData;
+            let dayData;
             const seasonData = store.getState().api.season.type.toString();
             if (sport === "football") {
               weekData = store.getState().api.week.number.toString();
-
               setWeek({ week: weekData, season: seasonData });
             } else if (sport === "basketball") {
-              weekData = store.getState().api.day.date;
+              dayData = store.getState().api.day.date;
+              setDay({ day: dayData, season: seasonData });
             }
           }
         );
@@ -120,12 +131,13 @@ const Tab = (props) => {
         (i) => i.abbreviation === item.team.abbreviation
       ),
     }));
-
+    console.log(data);
     setTeams(data);
   };
 
   const handleFilterClick = (e) => {
     const filterValue = e.target.name;
+    console.log(filterValue);
     setFilter(filterValue);
     setTeamsData(teamsState, teamsDivisions, filterValue);
   };
@@ -159,6 +171,7 @@ const Tab = (props) => {
             sport={sport}
             league={league}
             week={week}
+            day={day}
             closeModal={closeModal}
           />
         </BootstrapModal.Body>
@@ -175,6 +188,7 @@ const Tab = (props) => {
             sport={sport}
             league={league}
             week={week}
+            day={day}
             closeModal={closeModal}
           />
         </BootstrapModal.Body>
@@ -195,7 +209,7 @@ const Tab = (props) => {
           ></img>
         </div>
         <p
-          className="table-title magenta-text bold"
+          className="tabs-title magenta-text bold"
           style={{ display: "inline-block" }}
         >
           Leagues:
@@ -210,7 +224,7 @@ const Tab = (props) => {
                   )}
                   key={index}
                   name={league}
-                  onClick={handleClick}
+                  onClick={handleLeagueClick}
                 >
                   {league}
                 </Button>
@@ -221,7 +235,7 @@ const Tab = (props) => {
           <Dropdown
             className={classNames(
               "picks-dropdown",
-              !logInSelector || !league ? "hide" : ""
+              !logInSelector || !league || sport !== "football" ? "hide" : ""
             )}
             sport={sport}
             league={league}
@@ -239,14 +253,17 @@ const Tab = (props) => {
           <Button
             className={classNames(
               "primary-btn my-2",
-              !logInSelector || !league ? "hide" : ""
+              !logInSelector || !league || sport !== "football" ? "hide" : ""
             )}
             onClick={handleMakePicksClick}
           >
             Make Game Picks
           </Button>
           <p
-            className={classNames(!logInSelector && league ? "" : "hide")}
+            className={classNames(
+              !logInSelector && league ? "" : "hide",
+              sport !== "football" ? "hide" : ""
+            )}
             style={{ display: "inline-block" }}
           >
             <i
@@ -255,12 +272,20 @@ const Tab = (props) => {
             ></i>{" "}
             <span className="light-grey-text">Login to Make / View Picks</span>
           </p>
+          <p
+            className={classNames(
+              "yellow-text tab-heading",
+              active === "" ? "hide" : ""
+            )}
+          >
+            <strong>{active}</strong> Standings {season}
+          </p>
         </div>
-        <Table className="sport-table no-margin rounded center">
+        <Table id="standingsBySportTable" className="sport-table no-margin rounded center">
           <tbody>
             {conferences.map(({ abbreviation, name }, index) => (
               <React.Fragment key={index}>
-                <tr key={index} className="">
+                <tr key={index} className="conf-headers">
                   <td colSpan={12}>
                     <Button
                       id={"toggleBtn" + index}
@@ -268,11 +293,11 @@ const Tab = (props) => {
                       data-bs-toggle="collapse"
                       data-bs-target={"#collapse-div" + index}
                     >
-                      <p className="turquoise-text table-title">
+                      <p className="turquoise-text table-subheader">
                         <span style={{ fontSize: "70%" }}>
-                          <i className="bi bi-plus"></i>
+                          <i className="plus-minus-toggle"></i>
                         </span>{" "}
-                        {name}{" "}
+                        <span style={{ marginLeft: "20px" }}>{name} </span>
                         <span className="pink-text">({abbreviation})</span>
                       </p>
                     </Button>
@@ -284,13 +309,14 @@ const Tab = (props) => {
                       <Table className="no-margin">
                         <tbody>
                           {divisions
-                            .filter((division) =>
-                              division.startsWith(abbreviation)
+                            .filter(
+                              (division) => abbreviation === division.conference
                             )
+                            .map((division) => division.division)
                             .map((division) => (
                               <React.Fragment key={division}>
                                 <tr key={division} className="column-header">
-                                  <td colSpan={2}>
+                                  <td className="col1">
                                     <p
                                       style={{
                                         textTransform: "uppercase",
@@ -325,20 +351,27 @@ const Tab = (props) => {
                                       L
                                     </Button>
                                   </td>
-                                  <td>
-                                    <Button
-                                      className={classNames(
-                                        "filter-btn",
-                                        filter === "winpercent"
-                                          ? "filtered"
-                                          : " "
-                                      )}
-                                      onClick={handleFilterClick}
-                                      name="winpercent"
-                                    >
-                                      PCT
-                                    </Button>
-                                  </td>
+                                  {sport === "hockey" ? (
+                                    <td>
+                                      <p>DIV</p>
+                                    </td>
+                                  ) : (
+                                    <td>
+                                      <Button
+                                        className={classNames(
+                                          "filter-btn",
+                                          filter === "winpercent"
+                                            ? "filtered"
+                                            : " "
+                                        )}
+                                        onClick={handleFilterClick}
+                                        name="winpercent"
+                                      >
+                                        PCT
+                                      </Button>
+                                    </td>
+                                  )}
+
                                   <td>
                                     <p>HOME</p>
                                   </td>
@@ -346,22 +379,108 @@ const Tab = (props) => {
                                     <p>ROAD</p>
                                   </td>
                                   <td>
-                                    <Button
-                                      className={classNames(
-                                        "filter-btn",
-                                        filter === "divisionwins"
-                                          ? "filtered"
-                                          : " "
-                                      )}
-                                      onClick={handleFilterClick}
-                                      name="divisionwins"
-                                    >
-                                      DIV
-                                    </Button>
+                                    {sport === "basketball" ||
+                                    sport === "football" ? (
+                                      <p>DIV</p>
+                                    ) : sport === "baseball" ? (
+                                      <Button
+                                        className={classNames(
+                                          "filter-btn",
+                                          filter === "pointsfor"
+                                            ? "filtered"
+                                            : " "
+                                        )}
+                                        onClick={handleFilterClick}
+                                        name="pointsfor"
+                                      >
+                                        RS
+                                      </Button>
+                                    ) : sport === "hockey" ? (
+                                      <Button
+                                        className={classNames(
+                                          "filter-btn",
+                                          filter === "pointsfor"
+                                            ? "filtered"
+                                            : " "
+                                        )}
+                                        onClick={handleFilterClick}
+                                        name="pointsfor"
+                                      >
+                                        GS
+                                      </Button>
+                                    ) : (
+                                      ""
+                                    )}
                                   </td>
                                   <td>
-                                    <p>CONF</p>
+                                    {sport === "basketball" ||
+                                    sport === "football" ? (
+                                      <p>CONF</p>
+                                    ) : sport === "baseball" ? (
+                                      <Button
+                                        className={classNames(
+                                          "filter-btn",
+                                          filter === "pointsagainst"
+                                            ? "filtered"
+                                            : " "
+                                        )}
+                                        onClick={handleFilterClick}
+                                        name="pointsagainst"
+                                      >
+                                        RA
+                                      </Button>
+                                    ) : sport === "hockey" ? (
+                                      <Button
+                                        className={classNames(
+                                          "filter-btn",
+                                          filter === "pointsagainst"
+                                            ? "filtered"
+                                            : " "
+                                        )}
+                                        onClick={handleFilterClick}
+                                        name="pointsagainst"
+                                      >
+                                        GA
+                                      </Button>
+                                    ) : (
+                                      ""
+                                    )}
                                   </td>
+                                  {sport === "baseball" ||
+                                  sport === "hockey" ? (
+                                    <>
+                                      <td>
+                                        <Button
+                                          className={classNames(
+                                            "filter-btn",
+                                            filter === "pointdifferential"
+                                              ? "filtered"
+                                              : " "
+                                          )}
+                                          onClick={handleFilterClick}
+                                          name="pointdifferential"
+                                        >
+                                          DIFF
+                                        </Button>
+                                      </td>
+                                      <td>
+                                        <Button
+                                          className={classNames(
+                                            "filter-btn",
+                                            filter === "streak"
+                                              ? "filtered"
+                                              : " "
+                                          )}
+                                          onClick={handleFilterClick}
+                                          name="streak"
+                                        >
+                                          STREAK
+                                        </Button>
+                                      </td>
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}
                                 </tr>
                                 {teams
                                   .filter(
@@ -371,15 +490,27 @@ const Tab = (props) => {
                                   .map((team, index) => (
                                     <tr key={index} className="team-row">
                                       <td
-                                        colSpan={2}
-                                        className="logo-column left"
+
+                                        className="col1 logo-column left"
                                       >
-                                        <img
-                                          className="logo"
-                                          src={team.team.logos[0].href}
-                                          alt=""
-                                          style={{ display: "inline-block" }}
-                                        ></img>
+                                        {team.team.logos ? (
+                                          <img
+                                            className="logo"
+                                            src={team.team.logos[0].href}
+                                            alt=""
+                                            style={{ display: "inline-block" }}
+                                          />
+                                        ) : (
+                                          <img
+                                            className="logo"
+                                            src={
+                                              require("../../assets/icons/not-found.svg")
+                                                .default
+                                            }
+                                            alt=""
+                                            style={{ display: "inline-block" }}
+                                          />
+                                        )}
 
                                         <p style={{ display: "inline-block" }}>
                                           {team.team.displayName}
@@ -403,16 +534,29 @@ const Tab = (props) => {
                                           }
                                         </p>
                                       </td>
-                                      <td>
-                                        <p>
-                                          {
-                                            team.stats.find(
-                                              (team) =>
-                                                team.type === "winpercent"
-                                            ).displayValue
-                                          }
-                                        </p>
-                                      </td>
+                                      {sport === "hockey" ? (
+                                        <td>
+                                          <p>
+                                            {
+                                              team.stats.find(
+                                                (team) => team.type === "vsdiv"
+                                              ).displayValue
+                                            }
+                                          </p>
+                                        </td>
+                                      ) : (
+                                        <td>
+                                          <p>
+                                            {
+                                              team.stats.find(
+                                                (team) =>
+                                                  team.type === "winpercent"
+                                              ).displayValue
+                                            }
+                                          </p>
+                                        </td>
+                                      )}
+
                                       <td>
                                         <p>
                                           {
@@ -431,24 +575,84 @@ const Tab = (props) => {
                                           }
                                         </p>
                                       </td>
-                                      <td>
-                                        <p>
-                                          {
-                                            team.stats.find(
-                                              (team) => team.type === "vsdiv"
-                                            ).displayValue
-                                          }
-                                        </p>
-                                      </td>
-                                      <td>
-                                        <p>
-                                          {
-                                            team.stats.find(
-                                              (team) => team.type === "vsconf"
-                                            ).displayValue
-                                          }
-                                        </p>
-                                      </td>
+
+                                      {sport === "basketball" ||
+                                      sport === "football" ? (
+                                        <>
+                                          <td>
+                                            <p>
+                                              {
+                                                team.stats.find(
+                                                  (team) =>
+                                                    team.type === "vsdiv"
+                                                ).displayValue
+                                              }
+                                            </p>
+                                          </td>
+                                          <td>
+                                            <p>
+                                              {
+                                                team.stats.find(
+                                                  (team) =>
+                                                    team.type === "vsconf"
+                                                ).displayValue
+                                              }
+                                            </p>
+                                          </td>
+                                        </>
+                                      ) : (
+                                        ""
+                                      )}
+
+                                      {sport === "baseball" ||
+                                      sport === "hockey" ? (
+                                        <>
+                                          <td>
+                                            <p>
+                                              {
+                                                team.stats.find(
+                                                  (team) =>
+                                                    team.type === "pointsfor"
+                                                ).displayValue
+                                              }
+                                            </p>
+                                          </td>
+                                          <td>
+                                            <p>
+                                              {
+                                                team.stats.find(
+                                                  (team) =>
+                                                    team.type ===
+                                                    "pointsagainst"
+                                                ).displayValue
+                                              }
+                                            </p>
+                                          </td>
+                                          <td>
+                                            <p>
+                                              {
+                                                team.stats.find(
+                                                  (team) =>
+                                                    team.type ===
+                                                    "pointdifferential"
+                                                ).displayValue
+                                              }
+                                            </p>
+                                          </td>
+                                          <td>
+                                            <p>
+                                              {
+                                                team.stats.find(
+                                                  (team) =>
+                                                    team.type === "streak"
+                                                ).displayValue
+                                              }
+                                            </p>
+                                          </td>
+                                        </>
+                                      ) : (
+                                        ""
+                                      )}
                                     </tr>
                                   ))}
                               </React.Fragment>

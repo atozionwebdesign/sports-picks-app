@@ -21,7 +21,8 @@ app.use((req, res, next) => {
 
 // Connect to MongoDB
 mongoose.connect(
-  "mongodb+srv://admin:rRMvqrXEpW76Xw3X@dev-aws-portfolio.mzca5m7.mongodb.net/sportsPicksDB?retryWrites=true&w=majority"
+  // "mongodb+srv://admin:rRMvqrXEpW76Xw3X@dev-aws-portfolio.mzca5m7.mongodb.net/sportsPicksDB?retryWrites=true&w=majority"
+  "mongodb+srv://admin:SigTkOjT3Fouogcr@cluster0.lyotl7z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 );
 
 mongoose.connection.on("connected", () => {

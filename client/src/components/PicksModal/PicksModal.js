@@ -3,7 +3,7 @@ import * as React from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { getWeeksInfo } from "../../redux/features/apiSlice";
+import { getWeeksInfo, getDaysInfo } from "../../redux/features/apiSlice";
 
 import { winnersSelector, userSelector } from "../../redux/selectors";
 
@@ -26,10 +26,6 @@ import Button from "react-bootstrap/Button";
 
 const Modal = (props) => {
   const dispatch = useDispatch();
-
-  // const weekRef = useRef();
-  // const seasonRef = useRef();
-
   const sport = props.sport;
   const league = props.league;
   const closeModal = props.closeModal;
@@ -38,7 +34,6 @@ const Modal = (props) => {
   const [seasons, setSeasons] = useState([]); // Seasons drop down values
   const [games, setGames] = useState([]);
   const [dates, setDates] = useState([]);
-
   const [picks, setPicks] = useState([]);
 
   const winners = useSelector(winnersSelector);
@@ -46,7 +41,12 @@ const Modal = (props) => {
 
   useEffect(() => {
     setPicks([]);
-    getData(props.week.season, props.week.week);
+    if (props.sport === "football") {
+      getData(props.week.season, props.week.week, props.sport);
+    }
+    // else {
+    //   getData(props.day.season, props.day.day, props.sport);
+    // }
     setPicks(
       store.getState().pick.userPicks.map((pick) => ({
         team: pick.team,
@@ -69,40 +69,77 @@ const Modal = (props) => {
     }, 1000);
   }, []);
 
-  const getData = (seasonData, weekData) => {
-    setWeek({ season: seasonData, week: weekData });
+  const getData = (seasonData, timeData, sport) => {
+    setWeek({ season: seasonData, week: timeData });
+    if (sport === "football") {
+      dispatch(
+        getWeeksInfo({
+          sport: sport,
+          league: league,
+          season: seasonData,
+          week: timeData,
+        })
+      )
+        .then((data) => {
+          setSeasons(
+            store.getState().api.leagueInfo.map((data) => ({
+              label: data.label,
+              value: data.value,
+            }))
+          );
 
-    dispatch(
-      getWeeksInfo({
-        sport: sport,
-        league: league,
-        season: seasonData,
-        week: weekData,
-      })
-    )
-      .then((data) => {
-        setSeasons(
-          store.getState().api.leagueInfo.map((data) => ({
-            label: data.label,
-            value: data.value,
-          }))
-        );
-        setWeeks(
-          store
-            .getState()
-            .api.leagueInfo.find((item) => item.value === seasonData).entries
-        );
-        setGames(store.getState().api.events);
-        setDates(
-          [
-            ...new Set(store.getState().api.events.map((item) => item.date)),
-          ].sort()
-        );
-      })
-      .then((data) => {
-        populateNFLTable();
-        populateUserPicks();
-      });
+          setWeeks(
+            store
+              .getState()
+              .api.leagueInfo.find((item) => item.value === seasonData).entries
+          );
+          setGames(store.getState().api.events);
+          setDates(
+            [
+              ...new Set(store.getState().api.events.map((item) => item.date)),
+            ].sort()
+          );
+        })
+        .then((data) => {
+          populateNFLTable();
+          populateUserPicks();
+        });
+    }
+    // else if (sport === "basketball") {
+    //   dispatch(
+    //     getDaysInfo({
+    //       sport: sport,
+    //       league: league,
+    //       season: seasonData,
+    //       day: timeData,
+    //     })
+    //   )
+    //     .then((data) => {
+    //       console.log(data);
+    //       setSeasons(
+    //         store.getState().api.seasons[0].types.map((data) => ({
+    //           label: data.name,
+    //           value: data.id,
+    //         }))
+    //       );
+    //       setWeeks(
+    //         store.getState().api.leagueInfo.map((data) => ({
+    //           label: new Date(data).toDateString(),
+    //           value: data,
+    //         }))
+    //       );
+    //       setGames(store.getState().api.events);
+    //       setDates(
+    //         [
+    //           ...new Set(store.getState().api.events.map((item) => item.date)),
+    //         ].sort()
+    //       );
+    //     })
+    //     .then((data) => {
+    //       populateNFLTable();
+    //       populateUserPicks();
+    //     });
+    // }
   };
 
   const populateNFLTable = () => {
@@ -349,13 +386,10 @@ const Modal = (props) => {
 
   const handleSelect = (e) => {
     const value = e.target.value;
-    // document.getElementById(e.target.id).size = 1;
-    // document.getElementById(e.target.id).blur();
-
     if (e.target.name === "season") {
-      getData(value, 1);
+      getData(value, 1, sport);
     } else {
-      getData(week.season, value);
+      getData(week.season, value, sport);
     }
   };
 
@@ -481,14 +515,11 @@ const Modal = (props) => {
         Picks can be made and updated up until the time of the event.
       </p>
       <Form.Select
-        // onFocus={handleOnFocus}
-        // onBlur={handleOnBlur}
         onChange={handleSelect}
         value={week.season}
         className="filter-select"
         name="season"
         id="seasons"
-        // ref={seasonRef}
       >
         {seasons.map((season, index) => (
           <option key={index} value={season.value} href="">

@@ -183,7 +183,7 @@ const PicksTable = (props) => {
               <React.Fragment key={index}>
                 <tr>
                   <td colSpan={12} className="center">
-                    <p className="table-header">
+                    <p className="table-subheader">
                       {seasonDef.find((item) => item.value === season).name}
                     </p>
                   </td>

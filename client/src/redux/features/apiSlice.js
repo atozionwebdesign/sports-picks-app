@@ -25,6 +25,18 @@ export const getWeeksInfo = createAsyncThunk(
   }
 );
 
+export const getDaysInfo = createAsyncThunk(
+  "api/getDaysInfo",
+  async ({ sport, league, season, day }, { rejectWithValue }) => {
+    try {
+      const response = await API.getDaysInfo(sport, league, season, day);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const getStandingsInfo = createAsyncThunk(
   "api/getStandingsInfo",
   async ({ sport, league }, { rejectWithValue }) => {
@@ -67,13 +79,13 @@ const apiSlice = createSlice({
     error: "",
     loading: false,
   },
-  reducers:{
-    setAllGames: (state,action) => {
+  reducers: {
+    setAllGames: (state, action) => {
       const jsonObject = action.payload.map(JSON.stringify);
       const uniqueGames = new Set(jsonObject);
       const uniqueGArray = Array.from(uniqueGames).map(JSON.parse);
       state.allGames = uniqueGArray;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -160,6 +172,79 @@ const apiSlice = createSlice({
           );
       })
       .addCase(getWeeksInfo.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.message;
+      });
+    builder
+      .addCase(getDaysInfo.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getDaysInfo.fulfilled, (state, action) => {
+        state.loading = false;
+        state.events = action.payload.events;
+        state.leagueInfo = action.payload.leagues[0].calendar;
+        state.games = action.payload.events.map((event) =>
+          event.status.type.completed === true
+            ? {
+                name: event.name,
+                id: event.id,
+                day: event.day,
+                date: event.date,
+                status: event.status,
+                winner: event.competitions[0].competitors.find(
+                  (team) => team.winner === true
+                ).team.displayName,
+                scores: [
+                  {
+                    home: event.competitions[0].competitors
+                      .filter((team) => team.homeAway === "home")
+                      .map((item) => ({
+                        name: item.team.displayName,
+                        score: item.score,
+                        logo: item.team.logo,
+                      })),
+                  },
+                  {
+                    away: event.competitions[0].competitors
+                      .filter((team) => team.homeAway === "away")
+                      .map((item) => ({
+                        name: item.team.displayName,
+                        score: item.score,
+                        logo: item.team.logo,
+                      })),
+                  },
+                ],
+              }
+            : {
+                name: event.name,
+                id: event.id,
+                day: event.day,
+                date: event.date,
+                status: event.status,
+                home: event.competitions[0].competitors
+                  .filter((team) => team.homeAway === "home")
+                  .map((item) => ({
+                    name: item.team.displayName,
+                    logo: item.team.logo,
+                  })),
+                away: event.competitions[0].competitors
+                  .filter((team) => team.homeAway === "away")
+                  .map((item) => ({
+                    name: item.team.displayName,
+                    logo: item.team.logo,
+                  })),
+              }
+        );
+        state.winners = action.payload.events
+          .filter((i) => i.status.type.completed === true)
+          .map(
+            (event) =>
+              event.competitions[0].competitors.find(
+                (team) => team.winner === true
+              ).team.displayName
+          );
+      })
+      .addCase(getDaysInfo.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload.message;
       });

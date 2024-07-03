@@ -1,70 +1,62 @@
-# Getting Started with Create React App
+# React Native Sports Pick App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Homepage](./client/public/img/home.PNG)
 
-## Available Scripts
+This application is a game that allows users to predict winners for upcoming sports events.
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+## Description
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+User picks are stored in a MongoDB database. The application uses a third party ESPN API to check each user pick against the actual sports event winner. If a user pick corresponds with the winner of the event, the pick is stored as a winning pick. User standings are calculated and compared against other users.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Note: The application follows the same structure as the third party ESPN API data. As a result, events are organized first by sport and then by league.
 
-### `npm test`
+## Technologies
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- node.js
+- MongoDb
+- [Mongoose](https://mongoosejs.com/)
+- [Epress NPM package](https://www.npmjs.com/package/express)
+- ReactJS
+- GSAP
+- Bootstrap
 
-### `npm run build`
+## Site Images
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Dependencies
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Installation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Install node.js to computer, if not already installed.
 
-### `npm run eject`
+  - Node.js can be installed from [here](https://nodejs.org/en/).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Copy all application files to local machine.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Open main directory and install all dependencies. These installations are accomplished by performing the following command:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+npm i
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Status
 
-## Learn More
+The NFL pipeline was the first one set up and is fully operational. The application will continually be updated to include other sports leagues.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Fully operational sport/leagues pipelines:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- football -> NFL
 
-### Code Splitting
+Sport/Leagues pipelines in progress:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- football -> CFL
+- basketball -> NBA, WNBA
 
-### Analyzing the Bundle Size
+## Contributors
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+[Ashley Stith, CEO and Lead Developer of A To Zion Web Design, LLC](mailto:ashley.stith@atozionwebdesign.com).
 
-### Making a Progressive Web App
+## Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Check out the live application and other recent projects at http://www.atozionwebdesign.com

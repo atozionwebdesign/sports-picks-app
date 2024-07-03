@@ -105,6 +105,10 @@ const Home = () => {
         {/* </div> */}
       </div>
       <div className="main-div" ref={tabsRef}>
+        <p style={{ fontSize: "30px", textAlign: "left", marginLeft: "20px" }}>
+          View Standings By Sport <span className="yellow-text">&</span> Make
+          NFL Game Picks
+        </p>
         <TopEvents ref={userFormRef} />
         <div id="tabs">
           <Tabs />

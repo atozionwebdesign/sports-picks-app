@@ -1,0 +1,257 @@
+db.teams.insertMany([
+    {
+        abbreviation: "BUF",
+        name: "Buffalo Bills",
+        division: "AFC East",
+        conference: "AFC",
+        league: "NFL",
+    },
+    {
+    abbreviation: "MIA",
+    name: "Miami Dolphins",
+    division: "AFC East",
+            conference: "AFC",
+
+    league: "NFL",
+},
+{
+    abbreviation: "NYJ",
+    name: "New York Jets",
+    division: "AFC East",
+            conference: "AFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "NE",
+    name: "New England Patriots",
+    division: "AFC East",
+            conference: "AFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "BAL",
+    name: "Baltimore Ravens",
+    division: "AFC North",
+            conference: "AFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "CLE",
+    name: "Cleveland Browns",
+    division: "AFC North",
+            conference: "AFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "PIT",
+    name: "PittsBurgh Steelers",
+    division: "AFC North",
+            conference: "AFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "CIN",
+    name: "Cincinatti Bengals",
+    division: "AFC North",
+            conference: "AFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "HOU",
+    name: "Houston Texans",
+    division: "AFC South",
+            conference: "AFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "JAX",
+    name: "Jacksonville Jaguars",
+    division: "AFC South",
+            conference: "AFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "IND",
+    name: "Indianapolis Colts",
+    division: "AFC South",
+            conference: "AFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "TEN",
+    name: "Tennessee Titans",
+    division: "AFC South",
+            conference: "AFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "KC",
+    name: "Kansas City Chiefs",
+    division: "AFC West",
+            conference: "AFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "LV",
+    name: "Las Vegas Raiders",
+    division: "AFC West",
+            conference: "AFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "DEN",
+    name: "Denver Broncos",
+    division: "AFC West",
+            conference: "AFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "LAC",
+    name: "Las Angeles Chargers",
+    division: "AFC West",
+            conference: "AFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "DAL",
+    name: "Dallas Cowboys",
+    division: "NFC East",
+            conference: "NFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "PHI",
+    name: "Philadelphia Eagles",
+    division: "NFC East",
+                conference: "NFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "WSH",
+    name: "Washington Commanders",
+    division: "NFC East",
+                conference: "NFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "NYG",
+    name: "New York Giants",
+    division: "NFC East",
+                conference: "NFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "DET",
+    name: "Detroit Lions",
+    division: "NFC North",
+                conference: "NFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "GB",
+    name: "Greenbay Packers",
+    division: "NFC North",
+                conference: "NFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "MIN",
+    name: "Minnesota Vikings",
+    division: "NFC North",
+                conference: "NFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "CHI",
+    name: "Chicago Bears",
+    division: "NFC North",
+                conference: "NFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "TB",
+    name: "Tampa Bay Buccaneers",
+    division: "NFC South",
+                conference: "NFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "NO",
+    name: "New Orleans Saints",
+    division: "NFC South",
+                conference: "NFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "ATL",
+    name: "Atlanta Falcons",
+    division: "NFC South",
+                conference: "NFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "CAR",
+    name: "Carolina Panthers",
+    division: "NFC South",
+                conference: "NFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "SF",
+    name: "San Francisco 49ers",
+    division: "NFC West",
+                conference: "NFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "LAR",
+    name: "Los Angeles Rams",
+    division: "NFC West",
+                conference: "NFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "SEA",
+    name: "Seattle Seahaks",
+    division: "NFC West",
+                conference: "NFC",
+
+    league: "NFL"
+},
+{
+    abbreviation: "ARI",
+    name: "Arizona Cardinals",
+    division: "NFC West",
+                conference: "NFC",
+
+    league: "NFL"
+}
+])

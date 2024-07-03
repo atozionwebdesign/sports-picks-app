@@ -17,7 +17,6 @@ const Tabs = () => {
   sports.sort();
 
   const tabOnClick = (id) => {
-    console.log(id);
     setActiveTabId(id);
   };
 
@@ -28,7 +27,7 @@ const Tabs = () => {
           <Col sm={2} style={{ paddingRight: "0" }}>
             <Nav variant="pills" className="flex-column sport-nav">
               <p
-                className="left magenta-text bold table-title"
+                className="left magenta-text bold tabs-title"
                 style={{ marginBottom: "0" }}
               >
                 SPORTS
